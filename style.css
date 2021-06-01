@@ -1,0 +1,276 @@
+:root {
+    --cardsize: 15vmax;
+    --cardpadding: calc(var(--cardsize) / 8);
+    --cardYtrans: calc(var(--cardpadding) / -2);
+    --cardXtrans: calc(var(--cardsize) * .5);
+    --card-overlap: calc(var(--cardsize) * -1);
+    --cardsize-v: calc(var(--cardsize) * 1.1);
+    --card-overlap-v: calc(var(--cardsize) * -1.5);
+    --cardXtrans-v: calc(var(--cardXtrans) * -1);
+}
+
+body {
+    background-color: black;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-position: bottom;
+    background-size: auto;
+    
+    /* disable zoom */
+    touch-action: none;
+}
+
+.menu {
+    grid-area: menu;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.settings {
+    grid-area: menu;
+    height: 5vmax;
+    width: 5vmax;
+    cursor: pointer;
+    flex-grow: 0;
+}
+
+
+
+/* < 3/4 tall */
+@media (max-aspect-ratio: 3/4) {
+    .container {
+        display: grid;
+        width: 100%;
+        height: 100%;
+        grid-template-columns: 1fr 2fr 2fr 2fr;
+        grid-template-rows: 1fr 20fr 5fr;
+        grid-template-areas:
+            'menu menu menu menu'
+            'dealer dealer player player'
+            'math math buttons buttons';
+    }
+    .menu { height: 10vmin; }
+    .settings img { height: 100%; }
+    .title-tall { display: none; }
+    .settings { height: 10vmin; }
+
+    .title-wide img {
+        height: 100%;
+        flex-grow: 5;
+        flex-shrink: 1;
+    }
+}
+
+/* 3/4 ~ 1/1 kinda tall */
+@media (min-aspect-ratio: 3/4) and (max-aspect-ratio: 1/1) {
+    .container {
+        display: grid;
+        width: 100%;
+        height: 100%;
+        grid-template-columns: 1fr 15fr 15fr;
+        grid-template-rows: 1fr 20fr 5fr;
+        grid-template-areas:
+            'menu dealer player'
+            'menu dealer player'
+            'menu math buttons';
+    }
+    .menu { 
+        width: 10vmin;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .settings { width: 10vmin; height: 10vmin; }
+    .settings img { width: 100%; }
+    .title-wide { display: none; }
+
+    .title-tall img {
+        width: 100%;
+        max-height: 100%;
+        flex-grow: 10;
+        flex-shrink: 1;
+        padding-top: 5vmax;
+    }
+}
+
+/* 1/1 ~ 4/3 kinda-wide */
+@media (min-aspect-ratio: 1/1) and (max-aspect-ratio: 4/3) {
+    .container {
+        display: grid;
+        width: 100%;
+        height: 100%;
+        grid-template-columns: 2fr 30fr 10fr;
+        grid-template-rows: 2fr 15fr 15fr 10fr;
+        grid-template-areas:
+            'menu menu menu'
+            'dealer dealer dealer'
+            'player player player'
+            'math math buttons';
+    }
+    .menu { height: 10vmin; }
+    .settings img { height: 100%; }
+    .title-tall { display: none; }
+    .settings { height: 10vmin; }
+
+    .title-wide img {
+        height: 100%;
+        flex-grow: 5;
+        flex-shrink: 1;
+    }
+}
+
+/*  4/3 ~ 16/9 wide */
+@media (min-aspect-ratio: 4/3) and (max-aspect-ratio: 16/9) {
+    .container {
+        display: grid;
+        height: 100%;
+        width: 100%;
+        grid-template-columns: 2fr 15fr 15fr;
+        grid-template-rows: 2fr 25fr 10fr;
+        grid-template-areas:
+            'menu dealer player'
+            'menu dealer player'
+            'menu math buttons';
+        overflow: hidden;
+    }
+    .menu { 
+        max-width: 10vh;
+        max-height: 100%;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .settings { width: 100%; max-width: 10vh; }
+    .settings img { width: 100%;}
+    .title-wide { display: none; }
+
+    .title-tall img {
+        width: 100%;
+        flex-grow: 10;
+        flex-shrink: 1;
+        padding-top: 5vmin;
+    }
+}
+
+/* > 16/9 ultrawide */
+@media (min-aspect-ratio: 16/9) {
+    .container {
+        display: grid;
+        height: 100%;
+        max-width: 200vh;
+        grid-template-columns: 2fr 10fr 10fr 10fr; 
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas:
+            'menu dealer player math'
+            'menu dealer player buttons';
+    }
+    .menu { 
+        max-width: 10vh;
+        max-height: 100%;
+        /* width: 5vmin; */
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .settings { width: 100%; max-width: 10vh; }
+    .settings img { width: 100%; }
+    .title-wide { display: none; }
+
+    .title-tall img {
+        width: 100%;
+        flex-grow: 10;
+        flex-shrink: 1;
+        padding-top: 5vmin;
+    }
+    :root {
+        --cardsize: 25vh;
+    }
+}
+
+
+/* ----------------- PLAY AREA ----------------- */
+
+.dealer-cards { grid-area: dealer; }
+.player-cards { grid-area: player; }
+
+.dealer-cards, 
+.player-cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid white; */
+}
+
+.dealer-cards p, 
+.player-cards p {
+    justify-content: bottom;
+}
+
+.card {
+    padding: var(--cardpadding);
+    margin-left: 0;
+    object-fit: contain;
+}
+.card img {
+    width: var(--cardsize);
+     transition: .2s;
+   /* width: 100%; */
+}
+.card:not(:first-child) {
+    /* negative margin */
+    margin-left: var(--card-overlap);
+    /* width: 100%; */
+}
+.card:hover img {
+    transform: translateY( var(--cardYtrans) );
+}
+.card:hover ~ .card img {
+    transform: translateX( var(--cardXtrans) );
+}
+
+@media (max-aspect-ratio: 1/1) {
+    .player-cards, .dealer-cards { 
+        flex-direction: column;
+        align-items: center;
+    }
+    .card img {
+        width: var(--cardsize-v);
+        /* width: 100%; */
+        transform: rotate(30deg);
+    }
+    .card:not(:first-child) {
+        /* negative margin */
+        margin-left: 0;
+        margin-top: var(--card-overlap-v);
+    }
+    .card:hover img {
+        transform: translateX( var(--cardXtrans-v) );
+    }
+    .card:hover ~ .card img {
+        transform: translateY( var(--cardXtrans)) rotate(30deg);
+    }
+}
+
+/* ----------------- ANALYSIS AREA ----------------- */
+
+.analysis-area {
+    /* format */
+    grid-area: 'math';
+    width: 100%;
+
+    /* look */
+    /* border: 1px solid maroon; */
+    color: white;
+}
+
+.analysis-area p {
+    text-align: center;
+}
+
+.play-buttons {
+    grid-area: buttons;
+}
+
+.play-buttons > button {
+    width: 30%;
+    height: 30%;
+    font: bold 2em Helvetica, sans-serif;
+}
